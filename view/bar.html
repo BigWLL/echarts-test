@@ -1,14 +1,15 @@
+<!--Created by wll on 2018/8/31.-->
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <title>ECharts 柱状图</title>
     <!-- 引入 echarts.js -->
-    <script src="echarts.min.js"></script>
+    <script src="../js/echarts.min.js"></script>
 </head>
 <body>
 <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-<div id="main" style="width: 600px;height:400px;"></div>
+<div id="main" style="width: 800px;height:400px;"></div>
 <div id="mainPie" style="width: 600px;height:400px; display: none"></div>
 <script type="text/javascript">
     //数据
@@ -23,6 +24,7 @@
             value: [{name: '秋1',value: '18'},{name: '秋2',value: '20'},{name: '秋3',value: '30'}]
         }
     ];
+
     //柱状图x轴数据
     var dataName = [];
     for(var i=0; i < data.length; i++){
@@ -48,6 +50,21 @@
         title: {
             text: 'ECharts bar'
         },
+        toolbox: {
+            show: true,
+            feature: {
+                restore: { // 配置项还原
+                    show: true
+                },
+                dataView: { // 数据视图
+                    show: true,
+                    readOnly: false
+                },
+                saveAsImage: { // 保存成图片
+                    show: true
+                }
+            }
+        },
         tooltip: { //提示框组件
             show: true,
             trigger: 'axis',
@@ -67,11 +84,19 @@
         legend: {
             data: ['销量']
         },
-        xAxis: {
-            type: 'category',
-            data: dataName
+        calculable : true,
+        xAxis: [
+            {
+                type: 'category',
+                data: dataName
+            }
+        ],
+        yAxis: {
+            type: 'value' // 坐标轴类型，value数值轴，适用于连续数据
+            /*category类目轴，适用于离散的类目数据，为该类型时必须通过data设置类目数据
+            * time时间轴
+            * log对数轴，适用于对数数据*/
         },
-        yAxis: {},
         series: [{
             name: '销量',
             type: 'bar',
@@ -107,6 +132,7 @@
         dataPie = data[param.dataIndex].value;
         optionPie.series[0].data = dataPie;
         document.getElementById('mainPie').style.display = 'block';
+        myChartPie.clear();
         myChartPie.setOption(optionPie );
     }
 

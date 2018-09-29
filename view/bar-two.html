@@ -1,0 +1,126 @@
+<!--Created by wll on 2018/8/31.-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts 柱状图</title>
+    <!-- 引入 echarts.js -->
+    <script src="../js/echarts.min.js"></script>
+</head>
+<body>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width: 600px;height:400px;"></div>
+<div id="mainPie" style="width: 600px;height:400px; display: none"></div>
+<script type="text/javascript">
+    //数据
+    var data =
+        {
+            value1: [{type: '毛线',name: '毛1',value: '10'},{type: '毛线',name: '毛2',value: '40'},{type: '毛线',name: '毛3',value: '10'}],
+            value2: [{type: '裤子', name: '裤1', value: '3'}, {type: '裤子', name: '裤2', value: '20'}, {type: '裤子', name: '裤3', value: '20'}],
+            value3: [{type: '秋衣', name: '秋1', value: '15'}, {type: '秋衣', name: '秋2', value: '20'}, {type: '秋衣', name: '秋3', value: '9'}]
+        }
+    ;
+    //柱状图x轴数据
+    var dataName = [];
+    // for(var i=0; i < data.length; i++){
+    //     dataName.push(data[i].name)
+    // }
+    data1.map(function(item, i){
+        if(dataName.indexOf(item.type) == -1){
+            dataName.push(item.type)
+        }
+    });
+    console.log('dataName',dataName)
+    //求和柱状图Y轴的值
+    var datasum =[];
+    /*data.map(function(item,i){
+        var a = 0;
+        item.value.map(function(item1,i){
+            a = a + Number(item1.value);
+        });
+        datasum.push(a);
+    });*/
+
+    console.log('datasum',datasum)
+    //饼图数据
+    var dataPie = [];
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+    var myChartPie = echarts.init(document.getElementById('mainPie'));
+
+    // 指定图表的配置项和数据
+    var option = {
+        title: {
+            text: 'ECharts bar'
+        },
+        tooltip: { //提示框组件
+            show: true,
+            trigger: 'axis',
+            axisPointer: { //坐标轴指示器(即x轴的name)
+                type: 'shadow', //阴影指示器
+                label: {  //坐标轴指示器的文本标签
+                    show: true, //是否显示文本标签
+                    fontStyle: 'oblique',
+                    fontWeight: '1000',
+                    fontSize: 20,
+                    shadowColor: '#ccc',
+                    shadowBlur: 10,
+                    borderRadius: 6
+                }
+            },
+        },
+        legend: {
+            data: ['销量']
+        },
+        xAxis: {
+            type: 'category',
+            data: dataName
+        },
+        yAxis: {},
+        series: [{
+            name: '销量',
+            type: 'bar',
+            data: datasum
+        }]
+    };
+    var optionPie = {
+        title: {
+            text: '详细内容饼图展示 pie',
+            x:'left'
+        },
+        tooltip: { //提示框组件
+            show: true,
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            data: ['销量']
+        },
+        series: [
+            {
+                name: '详细展示',
+                type: 'pie',
+                radius: '50%', //半径大小
+                center: ['50%', '50%'], //位置
+                data: dataPie
+            }]
+    };
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option );
+
+    function eConsole(param) {
+        dataPie = data[param.dataIndex].value;
+        optionPie.series[0].data = dataPie;
+        document.getElementById('mainPie').style.display = 'block';
+        myChartPie.clear();
+        myChartPie.setOption(optionPie );
+    }
+
+    myChart.on('click', eConsole);
+
+</script>
+</body>
+</html>
+<!--
+git@github.com:BigWLL/echarts-test.git
+-->

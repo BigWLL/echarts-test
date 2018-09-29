@@ -1,0 +1,31 @@
+<!--Created by wll on 2018/8/31.-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts 柱状图</title>
+    <!-- 引入 echarts.js -->
+    <script src="../js/echarts.min.js"></script>
+    <script src="../MyEchart/dataFormat.js"></script>
+    <script src="../MyEchart/MyEcharts.js"></script>
+</head>
+<body>
+    <div id="myEcharts1" style="width: 800px; height: 500px"></div>
+</body>
+    <script text="text/javaScript">
+
+        //获取数据
+        var data1 = [
+            { group: 'Beijing', name: '1月', value: 49 },
+            { group: 'Beijing', name: '2月', value: 15 },
+            { group: 'Beijing', name: '3月', value: 12 },
+            { group: 'tianjin', name: '4月', value: 14 },
+            { group: 'Tokyo', name: '1月', value: 12 },
+            { group: 'Tokyo', name: '2月', value: 15 },
+            { group: 'Tokyo', name: '3月', value: 2 },
+            { group: 'Tokyo', name: '4月', value: 14 }];
+
+        var opt1 = MyEcharts.ChartOptionTemplates.Bar('各个城市气温趋势', '°C', data1);
+        MyEcharts.RenderChart(opt1, 'myEcharts1');
+    </script>
+</html>

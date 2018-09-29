@@ -1,0 +1,139 @@
+<!--Created by wll on 2018/8/31.-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts 折线、面积图</title>
+    <menta name="description" content="折线图是用折线将各个数据点标志链接起来的图标，
+    用于展现数据的变化趋势，可用于直角坐标系和极坐标系上"></menta>
+    <!-- 引入 echarts.js -->
+    <script src="../js/echarts.min.js"></script>
+</head>
+<body>
+    <div id="myEcharts" style="width: 700px;height:400px;"></div>
+    <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('myEcharts'));
+        var option ={
+            title: {
+                text: '折线图'
+            },
+            legend: {
+                data:['销量','预购']
+            },
+            toolbox:{
+                show: true,
+                orient: 'horizontal', //horizontal水平，vertical垂直
+                showTitle: true, //是否在鼠标hover的时候显示每个工具icon的图标
+                feature: {
+                    myTool: { // 自定义的工具按钮，自定义的工具名，只能以my开头
+                        show: true,
+                        title:'自定义',
+                        icon:'image://http://echarts.baidu.com/images/favicon.png',
+                        onclick: function(){
+                            alert('myTool feature')
+                        }
+                    },
+                    saveAsImage:{
+                        type: 'png',
+                        excludeComponents: ['title'] // 保存为图片时忽略的组件列表，默认忽略工具栏；
+                    },
+                    restore:{
+                        show: true,
+                        title: '还原'
+                    },
+                    dataView:{},
+                    dataZoom: {}, //数据区域缩放
+                    magicType: {
+                        type: ['line','bar','stack'], //stack 切换为堆叠图，tiled平铺模式
+                    }
+                }
+            },
+            tooltip:{ //提示框组件
+                show: true,
+                trigger: 'axis', // 坐标轴触发，主要在柱状图，折线图等会使用类目轴的图标中使用
+                axisPointer: { //坐标轴指示器(即x轴的name)
+                    type: 'shadow', //阴影指示器
+                    label: {  //坐标轴指示器的文本标签
+                        show: true, //是否显示文本标签
+                        fontStyle: 'oblique',
+                        fontWeight: '1000',
+                        fontSize: 20,
+                        shadowColor: '#ccc',
+                        shadowBlur: 10,
+                        borderRadius: 6
+                    },
+                    shadowStyle: {  //'shadow'时有效
+                        color:{
+                            type: 'linear',
+                            x: 0,
+                            y: 0,
+                            x2: 0,
+                            y2: 1,
+                            colorStops:[
+                                {offset: 0, color: 'rgba(183, 236, 192, 0.65)'}, //0%处的颜色
+                                {offset: 0.5, color: 'rgba(253, 249, 249, 0.6)'},
+                                {offset: 1, color: 'rgba(183, 236, 224, 0.64)'} //100%处的颜色
+                            ]
+                        }
+                    }
+                },
+            },
+            grid: {
+                show: true,
+                left: 40, //组件距离容器上侧的距离
+                width: 600, //网格的宽度
+                backgroundColor: 'rgba(172, 175, 34, 0.32)' ,//网格背景色生效的前提是设置了show: true
+                shadowColor: 'rgba(60, 94, 99, 0.84)', //此配置项生效的前提是，设置了 show: true
+                shadowBlur: 10, //图形阴影的模糊大小,该属性配合 shadowColor,shadowOffsetX, shadowOffsetY 一起设置图形的阴影效果。
+            },
+            xAxis: {
+                type: 'category',
+                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                data: [820, 932, 901, 934, 1290, 1330, 1320],
+                name: '销量',
+                type: 'line',
+                smooth: true, //光滑的线
+                coordinateSystem:'cartesian2d',//使用二维的直角坐标系（笛卡尔坐标系）
+                symbol: 'pin', // 可选项： circle、rect矩形、roundRect圆矩形、triangle三角行、diamond菱形、pin大头针、arrow箭头
+                symbolSize: 6,
+                // symbolRotate: 0, // 标记的旋转角度
+                showSymbol: false, // 是否显示 symbol, 如果 false 则只有在 tooltip hover 的时候显示。
+                hoverAnimation: true, // 是否开启hover在拐点标志上的提示动画效果
+
+            },
+                {
+                    name: '预购',
+                    type: 'line',
+                    smooth: true,
+                    step: 'end', // 是否是阶梯线图，可以是true显示成阶梯线图，start、middle、end分别配置在当前点，当前点与下个点的中间点，下个点拐弯；
+                    label: {
+                        show: true, // 图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等
+                        rotate: 60, //标签旋转，从-90到90度，正直是逆时针
+                        // formatter: '{b}: {@score}', // {a}：系列名。{b}：数据名。{c}：数据值。{@xxx}：数据中名为'xxx'的维度的值，如{@product}表示名为'product'` 的维度的值。{@[n]}：数据中维度n的值，如{@[3]}` 表示维度 3 的值，从 0 开始计数。
+                        shadowBlur : 3
+                    },
+                    itemStyle: { // 折线拐点标志的样式
+                        color: {
+                            type: 'radial',
+                            x: 0.5,
+                            y: 0.5,
+                            r: 0.5,
+                            colorStrops: [{
+                                offset: 0,color:'red'
+                            },{
+                                offset: 1,color:'blue'
+                            }]
+                        }
+                    },
+                    data: [30, 182, 434, 791, 390, 30, 10]
+                },]
+        };
+        myChart.setOption(option);
+    </script>
+</body>
+</html>
